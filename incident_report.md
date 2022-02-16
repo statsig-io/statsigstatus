@@ -1,6 +1,6 @@
 #### 2/16/2022, 12:20hrs PT
 
-Ongoing
+Mitigated/Fixed
 
 13:01
 We are aware of slow response times on our API pods.  We believe we have identified the underlying issue and are actively working on mitigating it.
@@ -9,7 +9,10 @@ We are aware of slow response times on our API pods.  We believe we have identif
 We have mitigated the issue and are spinning back the clusters back up.  Services should start to come back online soon.
 
 14:25
-All services are back up and performing as expected
+All services are back up and performing as expected.  
+
+15:26
+We are working on identifying all affected customers and will be informing them in the next hour or so.
 
 ---
 
