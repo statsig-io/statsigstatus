@@ -1,3 +1,11 @@
+#### 2/16/2022, 12:20hrs PT
+
+Ongoing
+
+13:01
+We are aware of slow response times on our API pods.  We believe we have identified the underlying issue and are actively working on mitigating it.
+
+
 #### 2/5/2022, 18:00hrs PT
 
 14hrs
