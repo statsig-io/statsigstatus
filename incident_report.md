@@ -1,8 +1,8 @@
-#### 2/24/2022, 42 minutes
+#### 2/24/2022 11:10hrs PT
 
 Mitigated/Fixed
 
-11:10 Elevated rates of console and API errors related to a caching change
+11:10 Elevated rates of console and API errors related to a caching change.
 
 11:52 Resolved.  All services functioning normally.
 
