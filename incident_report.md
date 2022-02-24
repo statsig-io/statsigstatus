@@ -1,3 +1,8 @@
+#### 2/24/2022, Ongoing
+
+11:45
+We are aware of an issue with console and API errors and are actively investigating
+
 #### 2/16/2022, 12:20hrs PT
 
 Mitigated/Fixed
