@@ -1,16 +1,20 @@
-#### 2/24/2022, 42 minutes
+#### 2/24/2022, 11:10hrs PT
 
-Mitigated/Fixed
+Status: Mitigated/Fixed
+Duration: 00:42
 
-11:10 Elevated rates of console and API errors related to a caching change
+11:10 Elevated rates of console and API errors
 
-11:52 Resolved.  All services functioning normally.
+11:45 We are aware of elevated errors related to a caching change
+
+11:52 Resolved.  All services functioning normally
 
 ---
 
 #### 2/16/2022, 12:20hrs PT
 
-Mitigated/Fixed
+Status: Mitigated/Fixed
+Duration: 02:05
 
 13:01
 We are aware of slow response times on our API pods.  We believe we have identified the underlying issue and are actively working on mitigating it.
@@ -28,7 +32,8 @@ We are working on identifying all affected customers and will be informing them 
 
 #### 2/5/2022, 18:00hrs PT
 
-Mitigated/Fixed
+Status: Mitigated/Fixed
+Duration: 15:00
 
 We received reports of www and console not loading on Safari. Chrome worked fine. A refresh assisted by typeahead usually fixed the issue.
 
