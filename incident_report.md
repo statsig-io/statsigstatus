@@ -1,7 +1,12 @@
-#### 2/24/2022, Ongoing
+#### 2/24/2022, 42 minutes
 
-11:45
-We are aware of an issue with console and API errors and are actively investigating
+Mitigated/Fixed
+
+11:10 Elevated rates of console and API errors related to a caching change
+
+11:52 Resolved.  All services functioning normally.
+
+---
 
 #### 2/16/2022, 12:20hrs PT
 
@@ -23,7 +28,7 @@ We are working on identifying all affected customers and will be informing them 
 
 #### 2/5/2022, 18:00hrs PT
 
-14hrs
+Mitigated/Fixed
 
 We received reports of www and console not loading on Safari. Chrome worked fine. A refresh assisted by typeahead usually fixed the issue.
 
