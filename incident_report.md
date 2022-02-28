@@ -1,3 +1,13 @@
+#### 2/24/2022 12:46hrs PT
+
+Mitigated/Fixed
+
+12:46 Reports of iOS clients using anything but the latest iOS SDK were crashing
+
+13:36 Mitigated.  All services functioning normally.
+
+---
+
 #### 2/24/2022 11:10hrs PT
 
 Mitigated/Fixed
