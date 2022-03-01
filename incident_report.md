@@ -2,9 +2,36 @@
 
 Mitigated/Fixed
 
-12:46 Reports of iOS clients using anything but the latest iOS SDK were crashing
+12:25 Offending change pushed to EU region;
 
-13:36 Mitigated.  All services functioning normally.
+12:40 Offending change pushed to SEA region;
+
+12:46 Reports of iOS clients using anything below v1.8.0 of the iOS SDK were crashing
+
+13:05 Issue identified; started to revert recent changes;
+
+13:36 Changes reverted and issue mitigated. All services functioning normally.
+
+---
+
+### Root Cause:
+
+The iOS SDK saves the response from Statsig's `initialize` endpoint to `UserDefaults` to be used to serve feature gate and experiment values when the user or Statsig is offline. Prior to v1.8.0, this was done via the [`UserDefaults.standard.setValue`](https://github.com/statsig-io/ios-sdk/blob/v1.7.3/Sources/Statsig/InternalStore.swift#L77) API. The problem with using this API is that it will crash if the value is a dictionary with any `nil` value in it.
+
+We discovered the issue a couple weeks ago and fixed it in v1.8.1+ [here](https://github.com/statsig-io/ios-sdk/blob/v1.8.1/Sources/Statsig/InternalStore.swift#L95) by JSON serializing it first before saving to `UserDefaults`.
+
+
+Today we deployed a change that introduced some new fields to the `initialize` endpoint's response, which are not used by the current versions of the SDK. However, one field has `nil` in the value, which resulted in crashes for versions below v1.8.0. v1.8.0 does not have the crash because we introduced a change in it that would only extract and save a few known fields from the dictionary, so it avoided saving the `nil` values into `UserDefaults`.
+
+### Mitigation:
+
+We rolled back the changes to the `initialize` endpoint as soon as we discovered the issue, and since then crashes have stopped.
+
+### Prevention:
+
+- v1.8.1+ already has the fix that would prevent the client from crashing for the same reason;
+- we are updating the `initialize` endpoint to not return any `nil` before we deploy the change again;
+- we are working on adding tests to ensure `nil` will not be included in the endpoint's response.
 
 ---
 
