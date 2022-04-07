@@ -1,3 +1,11 @@
+#### 4/07/2022 10:00hrs PT
+
+Ongoing
+
+An outage on Azure's Events Hub has impacted real time event streaming in Statsig, and outgoing integrations which replay events.
+
+We're actively monitoring the issue and attempting to replay missing integration data.
+
 #### 2/28/2022 12:46hrs PT
 
 Mitigated/Fixed
