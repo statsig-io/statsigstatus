@@ -18,10 +18,13 @@ Root Cause:
 
 The iOS SDK saves the response from Statsig's `initialize` endpoint to `UserDefaults` to be used to serve feature gate and experiment values when the user or Statsig is offline. Prior to v1.8.0, this was done via the [`UserDefaults.standard.setValue`](https://github.com/statsig-io/ios-sdk/blob/v1.7.3/Sources/Statsig/InternalStore.swift#L77) API. The problem with using this API is that it will crash if the value is a dictionary with any `nil` value in it.
 
-We discovered the issue a couple weeks ago and fixed it in v1.8.1+ [here](https://github.com/statsig-io/ios-sdk/blob/v1.8.1/Sources/Statsig/InternalStore.swift#L95) by JSON serializing it first before saving to `UserDefaults`.
+We discovered the issue a couple weeks ago and fixed it in v1.8.1+ [here](https://github.com/statsig-io/ios-sdk/blob/v1.8.1/Sources/Statsig/InternalStore.swift#L95) by JSON serializing the payload first before saving to `UserDefaults`.
 
+Starting in v1.8.0, the SDK started only extracting fields explicitly and saving only those select fields into `UserDefaults`.
 
-Today we deployed a change that introduced some new fields to the `initialize` endpoint's response, which are not used by the current versions of the SDK. However, one field has `nil` in the value, which resulted in crashes for versions below v1.8.0. v1.8.0 does not have the crash because we introduced a change in it that would only extract and save a few known fields from the dictionary, so it avoided saving the `nil` values into `UserDefaults`.
+Combined, these changes mean that adding new fields to the endpoint response, or returning nil for any existing field in the response, will not cause the SDK to crash in the future.  
+
+Today we deployed a change that introduced some new fields to the `initialize` endpoint's response, which are not used by the current versions of the SDK. However, one field has `nil` in the value, which resulted in crashes for versions below v1.8.0.
 
 Mitigation:
 
@@ -29,8 +32,9 @@ We rolled back the changes to the `initialize` endpoint as soon as we discovered
 
 Prevention:
 
-- v1.8.1+ already has the fix that would prevent the client from crashing for the same reason;
-- we are updating the `initialize` endpoint to not return any `nil` before we deploy the change again;
+- v1.8.1+ of the iOS SDK contains the proper protections for similar potential issues
+- We have verified that the Android SDK already had these protections in place.  As always, we recommend staying up to date with the most recent version of Statsig SDKs (4.3.0 for Android)
+- we are updating the `initialize` endpoint to not return any `nil` before we deploy the change again
 - we are working on adding tests to ensure `nil` will not be included in the endpoint's response.
 
 ---
