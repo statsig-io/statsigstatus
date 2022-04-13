@@ -1,6 +1,6 @@
 #### 4/12/2022 22:00hrs PT
 
-We are unable to allocate VMs to run Databricks jobs.  We have identified the root-cause to be a bug on Azure Billing side and have engaged with the Azure support team to resolve this as soon as possible.
+We are unable to allocate VMs to run Databricks jobs. This will cause all analytics to be delayed. We have identified the root-cause to be a bug on Azure Billing side and have engaged with the Azure support team to resolve this as soon as possible.
 
 #### 4/07/2022 10:00hrs PT
 
