@@ -256,7 +256,13 @@ async function genIncidentReport() {
   const response = await fetch("https://incidents.statsig.workers.dev/contents");
   if (response.ok) {
     const json = await response.json();
-    const htmlDom = DOMPurify.sanitize(marked.parse(json.contents));
-    document.getElementById('incidentReport').innerHTML = htmlDom;
+    try {
+      const activeDom = DOMPurify.sanitize(marked.parse(json.active));
+      const inactiveDom = DOMPurify.sanitize(marked.parse(json.inactive));
+      document.getElementById('activeincidentReports').innerHTML = activeDom;
+      document.getElementById('pastincidentReports').innerHTML = inactiveDom;
+    } catch (e) {
+      console.log(e.message);
+    }
   } 
 }
