@@ -257,10 +257,10 @@ async function genIncidentReport() {
   if (response.ok) {
     const json = await response.json();
     try {
-      const activeDom = DOMPurify.sanitize(marked.parse(json.active));
+      const activeDom = DOMPurify.sanitize(marked.parse(json.active ? json.active : 'No active incidents'));
       const inactiveDom = DOMPurify.sanitize(marked.parse(json.inactive));
-      document.getElementById('activeincidentReports').innerHTML = activeDom;
-      document.getElementById('pastincidentReports').innerHTML = inactiveDom;
+      document.getElementById('activeIncidentReports').innerHTML = activeDom;
+      document.getElementById('pastIncidentReports').innerHTML = inactiveDom;
     } catch (e) {
       console.log(e.message);
     }
