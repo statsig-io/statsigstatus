@@ -261,6 +261,12 @@ async function genIncidentReport() {
       const inactiveDom = DOMPurify.sanitize(marked.parse(json.inactive));
       document.getElementById('activeIncidentReports').innerHTML = activeDom;
       document.getElementById('pastIncidentReports').innerHTML = inactiveDom;
+
+      if (json.active) {
+        setTimeout(() => {
+          document.getElementById('incidents').scrollIntoView(true);
+        }, 1000);
+      }
     } catch (e) {
       console.log(e.message);
     }
