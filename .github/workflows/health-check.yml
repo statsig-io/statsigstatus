@@ -11,6 +11,8 @@ jobs:
     name: Check all sites
     steps:
       - uses: actions/checkout@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run Shell Script
         id: shell_script_run
         run: bash ./health-check.sh
