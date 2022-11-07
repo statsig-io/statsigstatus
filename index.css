@@ -164,7 +164,6 @@ footer a {
   border-radius: 3px;
   height: 30px;
   min-width: 8px;
-  max-width: 20px;
   width: 100%;
 }
 
@@ -344,7 +343,7 @@ footer a {
     width: 100%;
     max-width: calc(10% - 4.5px);
   }
-  
+
   .statusStreamContainer {
     flex-wrap: wrap;
     row-gap: 5px;
