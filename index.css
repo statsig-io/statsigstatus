@@ -335,11 +335,18 @@ footer a {
   }
 
   .statusSquare + .statusSquare {
-    margin-left: 1px;
+    margin-left: 0px;
   }
 
   .statusSquare {
     min-width: 4px;
     width: 100%;
+    max-width: calc(10% - 4.5px);
+  }
+
+  .statusStreamContainer {
+    flex-wrap: wrap;
+    row-gap: 5px;
+    column-gap: 5px;
   }
 }
