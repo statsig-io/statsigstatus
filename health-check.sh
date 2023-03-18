@@ -48,9 +48,9 @@ do
   dateTime=$(date +'%Y-%m-%d %H:%M')
   if [[ $commit == true ]]
   then
-    echo $dateTime, $result >> "logs/${key}_report.log"
+    echo $dateTime, $result >> "logs/${key}_report.txt"
     # By default we keep 10000 last log entries.  Feel free to modify this to meet your needs.
-    echo "$(tail -10000 logs/${key}_report.log)" > "logs/${key}_report.log"
+    echo "$(tail -10000 logs/${key}_report.txt)" > "logs/${key}_report.txt"
   else
     echo "    $dateTime, $result"
   fi
@@ -60,7 +60,7 @@ if [[ $commit == true ]]
 then
   # Let's make Vijaye the most productive person on GitHub.
   git config --global user.name 'Vijaye Raji'
-  git config --global user.email 'vijaye@statsig.com'
+  git config --global user.email 'contact@muasean.com'
   git add -A --force logs/
   git commit -am '[Automated] Update Health Check Logs'
   git push
