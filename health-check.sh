@@ -9,7 +9,7 @@ then
 fi
 
 KEYSARRAY=()
-URLSARRAY=()
+COMMAND_ARGS=()
 
 urlsConfig="./urls.cfg"
 echo "Reading $urlsConfig"
@@ -18,7 +18,7 @@ do
   echo "  $line"
   IFS='=' read -ra TOKENS <<< "$line"
   KEYSARRAY+=("${TOKENS[0]}")
-  URLSARRAY+=("$(eval echo "${TOKENS[1]}")")
+  COMMAND_ARGS+=("$(eval echo "${TOKENS[1]}")")
 done < "$urlsConfig"
 
 echo "***********************"
@@ -29,13 +29,13 @@ mkdir -p logs
 for (( index=0; index < ${#KEYSARRAY[@]}; index++))
 do
   key="${KEYSARRAY[index]}"
-  url="$(echo ${URLSARRAY[index]})"
+  args="$(echo ${COMMAND_ARGS[index]})"
 
-  echo "  $key=$url"
+  echo "  $key=$args"
   
   for i in 1 2 3 4; 
   do
-    cmd="curl --write-out '%{http_code}' --silent --output /dev/null $url"
+    cmd="curl --write-out '%{http_code}' --silent --output /dev/null $args"
     response=$(eval "$cmd" | tee)
     if [ "$response" -eq 200 ] || [ "$response" -eq 202 ] || [ "$response" -eq 301 ] || [ "$response" -eq 307 ]; then
       result="success"
