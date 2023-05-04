@@ -1,5 +1,8 @@
 name: Scheduled Health Check
 
+env:
+  CLIENT_SDK_KEY: ${{ secrets.CLIENT_SDK_KEY }}
+
 # Controls when the action will run.
 on:
   schedule:
