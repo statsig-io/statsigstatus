@@ -265,7 +265,7 @@ async function genAllReports() {
 
 async function genIncidentReport() {
   const response = await fetch(
-    "https://incidents.statsig.workers.dev/contents"
+    "https://incidents.statsig.workers.dev/v2/contents"
   );
   if (response.ok) {
     const json = await response.json();
