@@ -27,48 +27,6 @@
           </div>
           <hr />
           <h4>Past Reports</h4>
-            <div class="incidentReport">
-            <h4><strong>Global Issue: Client SDK Initialization Failures and Event Ingestion Delays</strong></h4>
-            <p><strong>06/12/2025 13:49 PDT Mitigated</strong>:</p>
-            <p>
-              Core APIs remain healthy. Live querying surfaces such as Metrics Explorer and Custom Queries are also now healthy - and failures that happened during this time can be safely retried. We are still working to catch data processing up to real time, and expect this to take a few hours.
-            </p>
-            <p><strong>06/12/2025 13:49 PDT Mitigated</strong>:</p>
-            <p>
-              Core APIs remain healthy. We expect data processing to catch up within a few hours.
-            </p>
-            <p><strong>06/12/2025 13:10 PDT Investigating</strong>:</p>
-            <p>
-              Core APIs are healthy. We are continuing to work to mitigate data processing delays to things like Experiment Results and Metrics Explorer. At this moment, we do not have reason to believe there will be data-loss (the only exception being those who are using the HTTP API to hit /log_custom_exposure directly).
-            </p>
-            <p><strong>06/12/2025 12:50 PDT Investigating</strong>:</p>
-            <p>
-              Core APIs are recovered. We will continue to monitor. We are continuing to work to mitigate data processing delays.
-            </p>
-            <p><strong>06/12/2025 12:24 PDT Investigating</strong>:</p>
-            <p>
-              Initialize Success Rate for Client SDKs are healthy - we will continue to monitor as we work to bring back regions. We are continuing to anticipate large data delays - and are working to mitigate.
-            </p>
-            <p><strong>06/12/2025 12:07 PDT Investigating</strong>:</p>
-            <p>
-              Initialize Success Rate for Client SDKs are wavering around unhealthy levels - we are continuing to work to mitigate.
-            </p>
-            <p><strong>06/12/2025 11:55 PDT Investigating</strong>:</p>
-            <p>
-              Initialize Success Rate for Client SDKs is almost recovered. Event logging is healthy - but we do anticipate large data delays to still be present. We are continuing to work to mitigate.
-            </p>
-            <p><strong>06/12/2025 11:35 PDT Investigating</strong>:</p>
-            <p>
-              We are continuing to work to mitigate.
-            </p>
-            <p><strong>06/12/2025 10:59 PDT Investigating</strong>:</p>
-            <p>
-              A major outage in one of our cloud services is impacting critical functionality, causing Client SDK initialization failures and delays in event and exposure ingestion across multiple regions. We will provide another update if we determine that there is data loss.
-            </p>
-            <p>
-              Server SDK initialization is unaffected. We have not observed impact to configuration propagation latency.
-            </p>
-          </div>
           <div id="pastIncidentReports">
             Loading...
           </div>
