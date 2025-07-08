@@ -45,10 +45,10 @@ function getColor(uptimeVal) {
   return uptimeVal == null
     ? "nodata"
     : uptimeVal == 1
-    ? "success"
-    : uptimeVal < 0.3
-    ? "failure"
-    : "partial";
+      ? "success"
+      : uptimeVal < 0.3
+        ? "failure"
+        : "partial";
 }
 
 function constructStatusSquare(key, date, uptimeVal) {
@@ -110,24 +110,24 @@ function getStatusText(color) {
   return color == "nodata"
     ? "No Data Available"
     : color == "success"
-    ? "Fully Operational"
-    : color == "failure"
-    ? "Major Outage"
-    : color == "partial"
-    ? "Partial Outage"
-    : "Unknown";
+      ? "Fully Operational"
+      : color == "failure"
+        ? "Major Outage"
+        : color == "partial"
+          ? "Partial Outage"
+          : "Unknown";
 }
 
 function getStatusDescriptiveText(color) {
   return color == "nodata"
     ? "No Data Available: Health check was not performed."
     : color == "success"
-    ? "No downtime recorded today."
-    : color == "failure"
-    ? "Major outages recorded today."
-    : color == "partial"
-    ? "Partial outages recorded today."
-    : "Unknown";
+      ? "No downtime recorded today."
+      : color == "failure"
+        ? "Major outages recorded today."
+        : color == "partial"
+          ? "Partial outages recorded today."
+          : "Unknown";
 }
 
 function getTooltip(key, date, quartile, color) {
@@ -273,15 +273,7 @@ async function genIncidentReport() {
       const activeDom = DOMPurify.sanitize(
         marked.parse(res ? res : "No active incidents")
       );
-      const inactiveDom = DOMPurify.sanitize(marked.parse(json.inactive));
-      document.getElementById("activeIncidentReports").innerHTML = activeDom;
-      document.getElementById("pastIncidentReports").innerHTML = inactiveDom;
-
-      if (json.active) {
-        setTimeout(() => {
-          document.getElementById("incidents").scrollIntoView(true);
-        }, 1000);
-      }
+      document.getElementById("newsUpdates").innerHTML = activeDom;
     } catch (e) {
       console.log(e.message);
     }

@@ -2,34 +2,36 @@
   <head>
     <title>Stability Protocol - Status Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" property="description" content="Check the current Stability Protocol health status and view past incidents." />
-    <link rel="canonical" href="https://status.statsig.com/">
+    <meta
+      name="description"
+      property="description"
+      content="Check the current Stability Protocol health status and view past incidents."
+    />
+    <link rel="canonical" href="https://status.statsig.com/" />
     <link rel="stylesheet" href="index.css" />
     <script src="index.js"></script>
-    <script async src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script async src="https://cdn.jsdelivr.net/npm/dompurify@2.3.5/dist/purify.min.js"></script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+    ></script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/dompurify@2.3.5/dist/purify.min.js"
+    ></script>
   </head>
   <body>
     <div class="pageContainer">
       <div class="headline">
-<!--         <img src="logo.svg" alt="Logo" width="200px" /> -->
+        <!--         <img src="logo.svg" alt="Logo" width="200px" /> -->
         <span> System Status </span>
       </div>
       <div id="reports" class="reportContainer"></div>
       <div id="incidents" class="incidentsContainer">
         <div class="statusContainer">
           <div class="statusHeader">
-            <h3 class="incidentReportsHeader">Incident Reports</h3>
+            <h3 class="incidentReportsHeader">News & Updates</h3>
           </div>
-          <h4>Active Reports</h4>
-          <div id="activeIncidentReports">
-            Loading...
-          </div>
-          <hr />
-          <h4>Past Reports</h4>
-          <div id="pastIncidentReports">
-            Loading...
-          </div>
+          <div id="newsUpdates"></div>
         </div>
       </div>
       <div id="tooltip" class="tooltip" style="opacity: 0">
@@ -63,11 +65,11 @@
       </div>
     </div>
     <footer>
-      This is an 
+      This is an
       <a href="https://github.com/statsig-io/statsigstatus/"
         >Open-Source GitHub Page</a
       >.
-      <br>
+      <br />
       Forked from
       <a href="https://github.com/statsig-io/statuspage/"
         >Statsig's Status Page Template</a
@@ -76,7 +78,7 @@
   </body>
   <script>
     genAllReports();
-    window.addEventListener('load', () => {
+    window.addEventListener("load", () => {
       genIncidentReport();
     });
   </script>
