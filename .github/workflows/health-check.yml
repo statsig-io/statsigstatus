@@ -8,12 +8,18 @@ on:
 
 jobs:
   health_check_job:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Check all sites
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Make health-check.sh executable
+        run: chmod +x ./health-check.sh
       - name: Run Shell Script
         id: shell_script_run
         run: bash ./health-check.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
