@@ -265,13 +265,13 @@ async function genAllReports() {
 
 async function genIncidentReport() {
   const response = await fetch(
-    "https://incidents.statsig.workers.dev/contents"
+    "incident_report.md"
   );
   if (response.ok) {
-    const json = await response.json();
+    const res = await response.text();
     try {
       const activeDom = DOMPurify.sanitize(
-        marked.parse(json.active ? json.active : "No active incidents")
+        marked.parse(res ? res : "No active incidents")
       );
       const inactiveDom = DOMPurify.sanitize(marked.parse(json.inactive));
       document.getElementById("activeIncidentReports").innerHTML = activeDom;
