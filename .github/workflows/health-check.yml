@@ -2,7 +2,6 @@ name: Scheduled Health Check
 
 # Controls when the action will run.
 on:
-  workflow_dispatch:
   schedule:
     - cron: "*/5 * * * *"
 
@@ -10,16 +9,10 @@ jobs:
   health_check_job:
     runs-on: ubuntu-latest
     name: Check all sites
-    permissions:
-      contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Make health-check.sh executable
-        run: chmod +x ./health-check.sh
       - name: Run Shell Script
         id: shell_script_run
         run: bash ./health-check.sh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
