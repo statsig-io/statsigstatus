@@ -1,8 +1,5 @@
 name: Scheduled Health Check
 
-env:
-  CLIENT_SDK_KEY: ${{ secrets.CLIENT_SDK_KEY }}
-
 # Controls when the action will run.
 on:
   workflow_dispatch:
@@ -11,7 +8,7 @@ on:
 
 jobs:
   health_check_job:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     name: Check all sites
     steps:
       - uses: actions/checkout@v2
