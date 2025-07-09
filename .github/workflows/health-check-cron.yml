@@ -1,4 +1,4 @@
-name: Health Check
+name: Health Check Cron
 
 # Controls when the action will run.
 on:
