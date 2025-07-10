@@ -22,9 +22,10 @@ function constructStatusStream(key, url, uptimeData) {
   const lastSet = uptimeData[0];
   const color = getColor(lastSet);
   const colorClasses = getColorClasses(color);
+  const title = key.replaceAll("_", " ").toUpperCase();
 
   const container = templatize("statusContainerTemplate", {
-    title: key,
+    title,
     url: url,
     "color-badge": colorClasses.badge,
     "color-dot": colorClasses.dot,
@@ -61,13 +62,13 @@ function getColorClasses(color) {
       square: "bg-green-500"
     },
     failure: {
-      badge: "bg-red-100 text-red-800", 
+      badge: "bg-red-100 text-red-800",
       dot: "bg-red-500",
       square: "bg-red-500"
     },
     partial: {
       badge: "bg-orange-100 text-orange-800",
-      dot: "bg-orange-500", 
+      dot: "bg-orange-500",
       square: "bg-orange-500"
     },
     nodata: {
@@ -83,7 +84,7 @@ function constructStatusSquare(key, date, uptimeVal) {
   const color = getColor(uptimeVal);
   const colorClasses = getColorClasses(color);
   let square = templatize("statusSquareTemplate");
-  
+
   // Add the background color class
   square.classList.add(colorClasses.square);
   square.setAttribute("data-status", color);
@@ -117,14 +118,17 @@ function applyTemplateSubstitutions(node, parameters) {
     node.setAttribute(attr, templatizeString(attrVal, parameters));
   }
 
-  if (node.childElementCount == 0) {
-    node.innerText = templatizeString(node.innerText, parameters);
-  } else {
-    const children = Array.from(node.children);
-    children.forEach((n) => {
-      applyTemplateSubstitutions(n, parameters);
-    });
-  }
+  // Process all child nodes, including text nodes
+  const childNodes = Array.from(node.childNodes);
+  childNodes.forEach((childNode) => {
+    if (childNode.nodeType === Node.TEXT_NODE) {
+      // Handle text nodes
+      childNode.textContent = templatizeString(childNode.textContent, parameters);
+    } else if (childNode.nodeType === Node.ELEMENT_NODE) {
+      // Recursively handle element nodes
+      applyTemplateSubstitutions(childNode, parameters);
+    }
+  });
 }
 
 function templatizeString(text, parameters) {
@@ -138,14 +142,14 @@ function templatizeString(text, parameters) {
 
 function getStatusText(color) {
   return color == "nodata"
-    ? "No Data Available"
+    ? "Offline"
     : color == "success"
-      ? "Fully Operational"
+      ? "Online"
       : color == "failure"
-        ? "Major Outage"
+        ? "Offline"
         : color == "partial"
-          ? "Partial Outage"
-          : "Unknown";
+          ? "Offline"
+          : "Offline";
 }
 
 function getStatusDescriptiveText(color) {
@@ -260,7 +264,7 @@ function showTooltip(element, key, date, color) {
   // Position tooltip
   const rect = element.getBoundingClientRect();
   const tooltipRect = toolTipDiv.getBoundingClientRect();
-  
+
   toolTipDiv.style.top = rect.bottom + window.scrollY + 10 + "px";
   toolTipDiv.style.left = Math.max(10, rect.left + window.scrollX + rect.width / 2 - tooltipRect.width / 2) + "px";
   toolTipDiv.classList.remove("opacity-0");
@@ -276,25 +280,35 @@ function hideTooltip() {
 }
 
 function updateOverallStatus() {
-  const statusSquares = document.querySelectorAll('[data-status]');
+  // Get all service containers
+  const serviceContainers = document.querySelectorAll('#reports > div');
   let hasFailure = false;
   let hasPartial = false;
   let hasNoData = false;
-  
-  statusSquares.forEach(square => {
-    const status = square.getAttribute('data-status');
-    if (status === 'failure') hasFailure = true;
-    else if (status === 'partial') hasPartial = true;
-    else if (status === 'nodata') hasNoData = true;
+  let hasSuccess = false;
+
+  serviceContainers.forEach(container => {
+    // Get the status stream container for this service
+    const statusStream = container.querySelector('[id^="template_clone_"]');
+    if (statusStream) {
+      // Get all status squares and take the last one (most recent day)
+      const statusSquares = statusStream.querySelectorAll('[data-status]');
+      if (statusSquares.length > 0) {
+        const mostRecentSquare = statusSquares[statusSquares.length - 1];
+        const status = mostRecentSquare.getAttribute('data-status');
+        if (status === 'failure') hasFailure = true;
+        else if (status === 'partial') hasPartial = true;
+        else if (status === 'nodata') hasNoData = true;
+        else if (status === 'success') hasSuccess = true;
+      }
+    }
   });
-  
+
   const overallStatusEl = document.getElementById('overall-status');
-  const dot = overallStatusEl.querySelector('div');
-  
-  // Clear and rebuild the content
+
+  // Clear and rebuild the content based on priority: failure > partial > nodata > success
   if (hasFailure) {
     overallStatusEl.className = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800';
-    dot.className = 'w-2 h-2 bg-red-500 rounded-full mr-2';
     overallStatusEl.innerHTML = '<div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div>Major System Outage';
   } else if (hasPartial) {
     overallStatusEl.className = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800';
@@ -302,9 +316,13 @@ function updateOverallStatus() {
   } else if (hasNoData) {
     overallStatusEl.className = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600';
     overallStatusEl.innerHTML = '<div class="w-2 h-2 bg-gray-400 rounded-full mr-2"></div>System Status Unknown';
-  } else {
+  } else if (hasSuccess) {
     overallStatusEl.className = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800';
     overallStatusEl.innerHTML = '<div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>All Systems Operational';
+  } else {
+    // Fallback case if no services are found
+    overallStatusEl.className = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600';
+    overallStatusEl.innerHTML = '<div class="w-2 h-2 bg-gray-400 rounded-full mr-2"></div>Loading...';
   }
 }
 
@@ -330,9 +348,9 @@ async function genAllReports() {
       cleanUrl.replaceAll('"', "")
     );
   }
-  
+
   // Update overall status after all reports are loaded
-  setTimeout(updateOverallStatus, 500);
+  setTimeout(updateOverallStatus, 1000);
 }
 
 async function genIncidentReport() {
