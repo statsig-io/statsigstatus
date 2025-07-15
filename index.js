@@ -273,7 +273,10 @@ async function genIncidentReport() {
       const activeDom = DOMPurify.sanitize(
         marked.parse(json.active ? json.active : "No active incidents")
       );
-      const inactiveDom = DOMPurify.sanitize(marked.parse(json.inactive));
+      
+      const filteredInactive = filterIncidentsByDays(json.inactive, 30);
+      const inactiveDom = DOMPurify.sanitize(marked.parse(filteredInactive));
+      
       document.getElementById("activeIncidentReports").innerHTML = activeDom;
       document.getElementById("pastIncidentReports").innerHTML = inactiveDom;
 
@@ -286,4 +289,119 @@ async function genIncidentReport() {
       console.log(e.message);
     }
   }
+}
+
+function filterIncidentsByDays(incidentMarkdown, days) {
+  if (!incidentMarkdown) return "";
+  
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+  
+  const incidents = incidentMarkdown.split(/(?=#### )/);
+  const filteredIncidents = incidents.filter(incident => {
+    if (!incident.trim()) return false;
+    
+    const dateMatch = incident.match(/#### (\d{1,2}\/\d{1,2}\/\d{4})/);
+    if (!dateMatch) return false;
+    
+    const incidentDate = new Date(dateMatch[1]);
+    return incidentDate >= cutoffDate;
+  });
+  
+  return filteredIncidents.join('');
+}
+
+async function genIncidentHistory() {
+  const response = await fetch(
+    "https://incidents.statsig.workers.dev/contents"
+  );
+  if (response.ok) {
+    const json = await response.json();
+    try {
+      const olderIncidents = filterIncidentsOlderThanDays(json.inactive, 30);
+      const incidentsByYear = groupIncidentsByYear(olderIncidents);
+      
+      renderYearTabs(incidentsByYear);
+      renderYearContent(incidentsByYear);
+      
+      const years = Object.keys(incidentsByYear).sort((a, b) => b - a);
+      if (years.length > 0) {
+        activateYear(years[0]);
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+}
+
+function filterIncidentsOlderThanDays(incidentMarkdown, days) {
+  if (!incidentMarkdown) return "";
+  
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+  
+  const incidents = incidentMarkdown.split(/(?=#### )/);
+  const olderIncidents = incidents.filter(incident => {
+    if (!incident.trim()) return false;
+    
+    const dateMatch = incident.match(/#### (\d{1,2}\/\d{1,2}\/\d{4})/);
+    if (!dateMatch) return false;
+    
+    const incidentDate = new Date(dateMatch[1]);
+    return incidentDate < cutoffDate;
+  });
+  
+  return olderIncidents.join('');
+}
+
+function groupIncidentsByYear(incidentMarkdown) {
+  if (!incidentMarkdown) return {};
+  
+  const incidents = incidentMarkdown.split(/(?=#### )/).filter(i => i.trim());
+  const incidentsByYear = {};
+  
+  incidents.forEach(incident => {
+    const dateMatch = incident.match(/#### (\d{1,2}\/\d{1,2}\/\d{4})/);
+    if (dateMatch) {
+      const year = new Date(dateMatch[1]).getFullYear();
+      if (!incidentsByYear[year]) {
+        incidentsByYear[year] = [];
+      }
+      incidentsByYear[year].push(incident);
+    }
+  });
+  
+  return incidentsByYear;
+}
+
+function renderYearTabs(incidentsByYear) {
+  const tabsContainer = document.getElementById("yearTabs");
+  const years = Object.keys(incidentsByYear).sort((a, b) => b - a);
+  
+  tabsContainer.innerHTML = years.map(year => 
+    `<div class="yearTab" data-year="${year}" onclick="activateYear('${year}')">${year}</div>`
+  ).join('');
+}
+
+function renderYearContent(incidentsByYear) {
+  const contentContainer = document.getElementById("yearContent");
+  const years = Object.keys(incidentsByYear).sort((a, b) => b - a);
+  
+  contentContainer.innerHTML = years.map(year => {
+    const yearIncidents = incidentsByYear[year].join('');
+    const sanitizedContent = DOMPurify.sanitize(marked.parse(yearIncidents));
+    return `<div class="yearSection" id="year-${year}">${sanitizedContent}</div>`;
+  }).join('');
+}
+
+function activateYear(year) {
+  document.querySelectorAll('.yearTab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.querySelector(`[data-year="${year}"]`).classList.add('active');
+  
+  document.querySelectorAll('.yearSection').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById(`year-${year}`).classList.add('active');
 }

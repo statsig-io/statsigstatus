@@ -1,0 +1,52 @@
+<html lang="en">
+  <head>
+    <title>Statsig Status - Incident History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" property="description" content="View Statsig's complete incident history organized by year." />
+    <link rel="canonical" href="https://status.statsig.com/history">
+    <link rel="stylesheet" href="index.css" />
+    <script src="index.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/dompurify@2.3.5/dist/purify.min.js"></script>
+  </head>
+  <body>
+    <div class="pageContainer">
+      <div class="headline">
+        <img src="logo.svg" alt="Logo" width="200px" />
+        <span> Incident History </span>
+      </div>
+      <div class="navigationContainer">
+        <a href="/" class="navLink">← Back to Status</a>
+      </div>
+      <div id="historyContainer" class="incidentsContainer">
+        <div class="statusContainer">
+          <div class="statusHeader">
+            <h3 class="incidentReportsHeader">Incident History</h3>
+          </div>
+          <div id="yearTabs" class="yearTabs">
+            Loading...
+          </div>
+          <div id="yearContent" class="yearContent">
+            Loading...
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      This is an 
+      <a href="https://github.com/statsig-io/statsigstatus/"
+        >Open-Source GitHub Page</a
+      >.
+      <br>
+      Forked from
+      <a href="https://github.com/statsig-io/statuspage/"
+        >Statsig's Status Page Template</a
+      >.
+    </footer>
+  </body>
+  <script>
+    window.addEventListener('load', () => {
+      genIncidentHistory();
+    });
+  </script>
+</html>

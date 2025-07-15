@@ -310,6 +310,64 @@ footer a {
   margin-bottom: 30px;
 }
 
+.navigationContainer {
+  margin: 20px 0;
+  text-align: left;
+}
+
+.navLink {
+  color: #194b7d;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.navLink:hover {
+  text-decoration: underline;
+}
+
+.yearTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #ededed;
+  padding-bottom: 10px;
+}
+
+.yearTab {
+  background-color: #f5f6f8;
+  border: 1px solid #ededed;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #3b3b3b;
+  transition: all 0.2s;
+}
+
+.yearTab:hover {
+  background-color: #e9ecef;
+}
+
+.yearTab.active {
+  background-color: #194b7d;
+  color: white;
+  border-color: #194b7d;
+}
+
+.yearContent {
+  min-height: 200px;
+}
+
+.yearSection {
+  display: none;
+}
+
+.yearSection.active {
+  display: block;
+}
+
 @media screen and (max-width: 800px) {
   .pageContainer {
     padding: 30px 20px;
@@ -348,5 +406,15 @@ footer a {
     flex-wrap: wrap;
     row-gap: 5px;
     column-gap: 5px;
+  }
+
+  .yearTabs {
+    justify-content: center;
+  }
+  
+  .yearTab {
+    flex: 1;
+    text-align: center;
+    min-width: 80px;
   }
 }
