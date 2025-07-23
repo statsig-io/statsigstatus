@@ -148,6 +148,8 @@ footer a {
   padding-top: 20px;
   text-align: left;
   padding: 24px;
+  display: inline-block;
+  word-break: break-word;
 }
 
 .statusContainer + .statusContainer {
