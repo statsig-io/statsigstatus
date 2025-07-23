@@ -267,7 +267,6 @@ footer a {
   border-bottom-color: #fff;
   left: 50%;
   margin-left: -2px;
-  transition: left 0.2s ease;
 }
 
 .tooltip .tooltipDateTime {

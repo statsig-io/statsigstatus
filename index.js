@@ -217,7 +217,6 @@ let tooltipTimeout = null;
 function showTooltip(element, key, date, color) {
   clearTimeout(tooltipTimeout);
   const toolTipDiv = document.getElementById("tooltip");
-  const pageContainer = document.querySelector(".pageContainer");
 
   document.getElementById("tooltipDateTime").innerText = date.toDateString();
   document.getElementById("tooltipDescription").innerText =
@@ -227,25 +226,10 @@ function showTooltip(element, key, date, color) {
   statusDiv.innerText = getStatusText(color);
   statusDiv.className = color;
 
-  const elementRect = element.getBoundingClientRect();
-  const pageContainerRect = pageContainer.getBoundingClientRect();
-  const tooltipWidth = toolTipDiv.offsetWidth;
-  
-  let desiredLeft = elementRect.left + elementRect.width / 2 - tooltipWidth / 2;
-  let desiredTop = elementRect.bottom + 10;
-  
-  const minLeft = pageContainerRect.left + 10;
-  const maxLeft = pageContainerRect.right - tooltipWidth - 10;
-  
-  const adjustedLeft = Math.max(minLeft, Math.min(maxLeft, desiredLeft));
-  
-  toolTipDiv.style.top = desiredTop + "px";
-  toolTipDiv.style.left = adjustedLeft + "px";
+  toolTipDiv.style.top = element.offsetTop + element.offsetHeight + 10;
+  toolTipDiv.style.left =
+    element.offsetLeft + element.offsetWidth / 2 - toolTipDiv.offsetWidth / 2;
   toolTipDiv.style.opacity = "1";
-  
-  const arrow = document.getElementById("tooltipArrow");
-  const arrowOffset = elementRect.left + elementRect.width / 2 - adjustedLeft;
-  arrow.style.left = Math.max(8, Math.min(tooltipWidth - 8, arrowOffset)) + "px";
 }
 
 function hideTooltip() {
