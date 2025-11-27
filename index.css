@@ -310,6 +310,38 @@ footer a {
   margin-bottom: 30px;
 }
 
+.incidentReportsSubHeader {
+  margin-bottom: 15px;
+}
+
+.incidentReportsRed {
+  background-color: #eba49a;
+  border: 1px solid #f44336;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.incidentReportsOrange {
+  background-color: #f3d19d;
+  border: 1px solid #ff9800;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.incidentReportsGreen {
+  background-color: #add8af;
+  border: 1px solid #4cae50;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.incidentReportsNeutral {
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px;
+}
+
 .navigationContainer {
   margin: 20px 0;
   text-align: left;

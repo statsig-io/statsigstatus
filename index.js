@@ -269,16 +269,33 @@ async function genIncidentReport() {
   );
   if (response.ok) {
     const json = await response.json();
+
+    const activeElement = document.getElementById("activeIncidentReports");
+    const inactiveElement = document.getElementById("pastIncidentReports");
+    
     try {
-      const activeDom = DOMPurify.sanitize(
-        marked.parse(json.active ? json.active : "No active incidents")
-      );
-      
+      const activeDom = DOMPurify.sanitize(marked.parse(json.active));
+
       const filteredInactive = filterIncidentsByDays(json.inactive, 30);
       const inactiveDom = DOMPurify.sanitize(marked.parse(filteredInactive));
-      
-      document.getElementById("activeIncidentReports").innerHTML = activeDom;
-      document.getElementById("pastIncidentReports").innerHTML = inactiveDom;
+
+      if (activeDom) {
+        activeElement.innerHTML = activeDom;
+        activeElement.classList.add("incidentReportsOrange");
+        activeElement.classList.remove("incidentReportsGreen");
+      } else {
+        activeElement.innerHTML = "No active incidents";
+        activeElement.classList.add("incidentReportsGreen");
+        activeElement.classList.remove("incidentReportsOrange");
+      }
+
+      if (filteredInactive) {
+        inactiveElement.innerHTML = inactiveDom;
+        inactiveElement.classList.add("incidentReportsNeutral");
+      } else {
+        inactiveElement.innerHTML = "";
+        inactiveElement.classList.remove("incidentReportsNeutral");
+      }
 
       if (json.active) {
         setTimeout(() => {
