@@ -35,7 +35,7 @@ do
   
   for i in 1 2 3 4; 
   do
-    cmd="curl --write-out '%{http_code}' --silent --output /dev/null $args"
+    cmd="curl -L --write-out '%{http_code}' --silent --output /dev/null $args"
     response=$(eval "$cmd" | tee)
     if [ "$response" -eq 200 ] || [ "$response" -eq 202 ] || [ "$response" -eq 301 ] || [ "$response" -eq 307 ]; then
       result="success"
